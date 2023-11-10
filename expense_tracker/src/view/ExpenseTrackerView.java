@@ -33,7 +33,7 @@ public class ExpenseTrackerView extends JFrame {
     setTitle("Expense Tracker"); // Set title
     setSize(600, 400); // Make GUI larger
 
-    String[] columnNames = {"serial", "Amount", "Category", "Date"};
+    String[] columnNames = {"serial", "Amount", "Category", "Date", "Remove"};
     this.model = new DefaultTableModel(columnNames, 0);
 
     
@@ -157,7 +157,7 @@ public class ExpenseTrackerView extends JFrame {
   
       // Add rows from transactions list
       for(Transaction t : transactions) {
-        model.addRow(new Object[]{rowNum+=1,t.getAmount(), t.getCategory(), t.getTimestamp()}); 
+        model.addRow(new Object[]{rowNum+=1,t.getAmount(), t.getCategory(), t.getTimestamp(), new JButton("REMOVE")}); 
       }
       // Add total row
       Object[] totalRow = {"Total", null, null, totalCost};
