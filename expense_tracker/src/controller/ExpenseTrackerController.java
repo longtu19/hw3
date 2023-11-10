@@ -73,12 +73,23 @@ public class ExpenseTrackerController {
 
   }
   public void applyUndo(int selectedRow){
-    if (selectedRow != -1){
-        List<Transaction> transactions = model.getTransactions();
+    List<Transaction> transactions = model.getTransactions();
+    if (transactions.size() == 0){
+      JOptionPane.showMessageDialog(view, "No transactions to remove");
+      
+    }
+    else if (selectedRow != -1){
+       
         model.removeTransaction(transactions.get(selectedRow));
         refresh();
 
 
     }
+    else {
+        JOptionPane.showMessageDialog(view, "Please select a row of transaction to remove");
+
+
+    }
+
   }
 }
