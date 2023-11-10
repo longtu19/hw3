@@ -47,7 +47,7 @@ public class ExpenseTrackerController {
     
     Transaction t = new Transaction(amount, category);
     model.addTransaction(t);
-    view.getTableModel().addRow(new Object[]{t.getAmount(), t.getCategory(), t.getTimestamp(), t.getIsRemovable()});
+    view.getTableModel().addRow(new Object[]{t.getAmount(), t.getCategory(), t.getTimestamp()});
     refresh();
     return true;
   }
@@ -71,5 +71,14 @@ public class ExpenseTrackerController {
       JOptionPane.showMessageDialog(view, "No filter applied");
       view.toFront();}
 
+  }
+  public void applyUndo(int selectedRow){
+    if (selectedRow != -1){
+        List<Transaction> transactions = model.getTransactions();
+        model.removeTransaction(transactions.get(selectedRow));
+        refresh();
+
+
+    }
   }
 }

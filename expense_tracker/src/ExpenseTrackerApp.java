@@ -5,17 +5,25 @@ import view.ExpenseTrackerView;
 import model.Filter.AmountFilter;
 import model.Filter.CategoryFilter;
 
-public class ExpenseTrackerApp {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+public class ExpenseTrackerApp  {
 
   /**
    * @param args
    */
+
+
+
   public static void main(String[] args) {
     
     // Create MVC components
     ExpenseTrackerModel model = new ExpenseTrackerModel();
     ExpenseTrackerView view = new ExpenseTrackerView();
     ExpenseTrackerController controller = new ExpenseTrackerController(model, view);
+   
     
 
     // Initialize view
@@ -67,7 +75,16 @@ public class ExpenseTrackerApp {
     JOptionPane.showMessageDialog(view,exception.getMessage());
     view.toFront();
    }});
-    
 
-  }
+   view.addRemoveListener(e -> {
+    int selectedRow = view.getTransactionsTable().getSelectedRow();
+    controller.applyUndo(selectedRow);
+   });
+
+
+
+
+  };
+
+
 }

@@ -3,13 +3,20 @@ package view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import controller.ExpenseTrackerController;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 
+import model.ExpenseTrackerModel;
 import model.Transaction;
+import view.RemoveButton;
+
 
 import java.util.List;
 
@@ -27,39 +34,21 @@ public class ExpenseTrackerView extends JFrame {
 
   private JTextField amountFilterField;
   private JButton amountFilterBtn;
+  private JButton rmButton;
+  private ExpenseTrackerController controller;
 
   public ExpenseTrackerView() {
     setTitle("Expense Tracker"); // Set title
     setSize(600, 400); // Make GUI larger
 
-    String[] columnNames = { "serial", "Amount", "Category", "Date", "Remove" };
-    this.model = new DefaultTableModel(columnNames, 0) {
-      @Override
-      public Class<?> getColumnClass(int columnIndex) {
-        return columnIndex == 4 ? JButton.class : Object.class;
-      }
-    };
-
-    final class RemoveButton extends DefaultTableCellRenderer {
-      private final JButton button_remove;
-
-      public RemoveButton() {
-        this.button_remove = new JButton("REMOVE");
-      }
-
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-          int row, int column) {
-        return this.button_remove;
-      }
-
-    }
-    
+    String[] columnNames = { "serial", "Amount", "Category", "Date"};
+    this.model = new DefaultTableModel(columnNames, 0);
 
     // Create table
     transactionsTable = new JTable(model);
-    transactionsTable.getColumnModel().getColumn(4)
-        .setCellRenderer((TableCellRenderer) new RemoveButton());
+
+
+    rmButton = new JButton("REMOVE");
 
 
 
@@ -94,6 +83,7 @@ public class ExpenseTrackerView extends JFrame {
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(amountFilterBtn);
     buttonPanel.add(categoryFilterBtn);
+    buttonPanel.add(rmButton);
 
     // Add panels to frame
     add(inputPanel, BorderLayout.NORTH);
@@ -140,6 +130,10 @@ public class ExpenseTrackerView extends JFrame {
     categoryFilterBtn.addActionListener(listener);
   }
 
+  public void addRemoveListener(ActionListener listener) {
+    rmButton.addActionListener(listener);
+  }
+
   public String getCategoryFilterInput() {
     return JOptionPane.showInputDialog(this, "Enter Category Filter:");
   }
@@ -173,7 +167,7 @@ public class ExpenseTrackerView extends JFrame {
     // Add rows from transactions list
     for (Transaction t : transactions) {
       model.addRow(
-          new Object[] { rowNum += 1, t.getAmount(), t.getCategory(), t.getTimestamp(), "REMOVE" });
+          new Object[] { rowNum += 1, t.getAmount(), t.getCategory(), t.getTimestamp() });
     }
     // Add total row
     Object[] totalRow = { "Total", null, null, totalCost };

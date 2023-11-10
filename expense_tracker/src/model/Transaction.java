@@ -14,7 +14,6 @@ public class Transaction {
   private final double amount;
   private final String category;
   private final String timestamp;
-  private final boolean isRemovable;
 
   public Transaction(double amount, String category) {
     // Since this is a public constructor, perform input validation
@@ -29,7 +28,6 @@ public class Transaction {
     this.amount = amount;
     this.category = category;
     this.timestamp = generateTimestamp();
-    this.isRemovable = true;
   }
 
   public double getAmount() {
@@ -55,10 +53,6 @@ public class Transaction {
   //private helper method to generate timestamp
   private String generateTimestamp() {
      return dateFormatter.format(new Date());
-  }
-
-  public boolean getIsRemovable(){
-    return isRemovable;
   }
 
 
