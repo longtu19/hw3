@@ -76,7 +76,7 @@ public class ExpenseTrackerController {
     List<Transaction> transactions = model.getTransactions();
     if (transactions.size() == 0){
       JOptionPane.showMessageDialog(view, "No transactions to remove");
-      
+      throw new IllegalArgumentException("No transactions to remove");
     }
     else if (selectedRow != -1){
        
